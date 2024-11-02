@@ -1309,6 +1309,9 @@ func (c *Conn) writeResponse(code int, enhCode EnhancedCode, text ...string) {
 	} else {
 		c.text.PrintfLine("%d %v.%v.%v %v", code, enhCode[0], enhCode[1], enhCode[2], text[lastLineIndex])
 	}
+	if c.server.StatusLog != nil {
+		c.server.StatusLog.LogCode(code, enhCode, text...)
+	}
 }
 
 func (c *Conn) writeError(code int, enhCode EnhancedCode, err error) {
